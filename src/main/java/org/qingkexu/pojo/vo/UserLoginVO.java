@@ -24,5 +24,5 @@ public class UserLoginVO implements Serializable {
     private String userName;
 
     @ApiModelProperty("姓名")
-    private String tureName;
+    private String trueName;
 }

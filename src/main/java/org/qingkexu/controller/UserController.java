@@ -35,7 +35,7 @@ public class UserController {
         UserLoginVO userLoginVO = UserLoginVO.builder()
                 .userId(user.getUserId())
                 .userName(user.getUsername())
-                .tureName(user.getTrueName())
+                .trueName(user.getTrueName())
                 .build();
         return Result.success(userLoginVO);
     }

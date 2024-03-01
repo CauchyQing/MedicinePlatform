@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
             throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
         }
 
-        //密码对比md5
+        // 密码对比md5
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         if(!password.equals(user.getPassword())){
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
@@ -56,7 +56,12 @@ public class UserServiceImpl implements UserService {
      */
     public void register(UserDTO userDTO) {
         User user = new User();
-        BeanUtils.copyProperties(userDTO,user);
+        user.setId(userDTO.getId());
+        user.setPassword(DigestUtils.md5DigestAsHex(userDTO.getPassword().getBytes()));
+        user.setPhone(userDTO.getPhone());
+        user.setSex(userDTO.getSex());
+        user.setTrueName(userDTO.getTrueName());
+        user.setUsername(userDTO.getUsername());
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
         userMapper.insert(user);

@@ -19,12 +19,9 @@ public class User implements Serializable {
     private String password;
     private String trueName;
     private String phone;
-    private char sex;
-    private char status;
+    private String sex;
     private String loginIp;
     private LocalDateTime loginDate;
-    private String createBy;
     private LocalDateTime createTime;
-    private String updateBy;
     private LocalDateTime updateTime;
 }
