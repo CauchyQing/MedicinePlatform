@@ -3,6 +3,7 @@ package org.qingkexu.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -31,10 +32,10 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .version("1.0")
                 .description("医养平台项目接口文档")
                 .build();
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+        Docket docket = new Docket(DocumentationType.SWAGGER_12)
                 .apiInfo(apiInfo)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("controller"))
+                .apis(RequestHandlerSelectors.basePackage("org.qingkexu.controller"))
                 .paths(PathSelectors.any())
                 .build();
         return docket;

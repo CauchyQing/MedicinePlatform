@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.pojo.dto.UserDTO;
 import org.qingkexu.pojo.dto.UserLoginDTO;
+import org.qingkexu.pojo.entity.User;
 import org.qingkexu.pojo.vo.UserLoginVO;
 import org.qingkexu.result.Result;
 import org.qingkexu.service.UserService;
@@ -23,14 +24,20 @@ public class UserController {
     private UserService userService;
 
     /**
-     * TODO 登录
+     *  登录
      * @param userLoginDTO
      * @return
      */
     @PostMapping("/login")
     @ApiOperation("用户登录")
     public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO){
-        return null;
+        User user = userService.login(userLoginDTO);
+        UserLoginVO userLoginVO = UserLoginVO.builder()
+                .userId(user.getUserId())
+                .userName(user.getUsername())
+                .tureName(user.getTrueName())
+                .build();
+        return Result.success(userLoginVO);
     }
 
     /**

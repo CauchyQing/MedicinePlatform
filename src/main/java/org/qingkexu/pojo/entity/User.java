@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class User implements Serializable {
     private long userId;
+    private String  id;
     private String username;
     private String password;
     private String trueName;

@@ -9,7 +9,9 @@ import java.io.Serializable;
 @ApiModel("用户注册时传递的数据")
 public class UserDTO implements Serializable {
 
-    private Long id;
+    private String id;
+
+    private Long userId;
 
     private String username;
 

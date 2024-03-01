@@ -18,11 +18,11 @@ import java.io.Serializable;
 public class UserLoginVO implements Serializable {
 
     @ApiModelProperty("主键值")
-    private Long id;
+    private Long userId;
 
     @ApiModelProperty("用户名")
     private String userName;
 
     @ApiModelProperty("姓名")
-    private String name;
+    private String tureName;
 }

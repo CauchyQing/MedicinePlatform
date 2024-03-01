@@ -11,8 +11,8 @@ public interface UserMapper {
     @Select("select * from client_user where username=#{username}")
     User getByUsername(String username);
 
-    @Insert("insert into client_user (username, true_name, password, phone, sex, create_time, update_time, create_by, update_by, status) " +
+    @Insert("insert into client_user (username, true_name, id, password, phone, sex, create_time, update_time) " +
             "values" +
-            "(#{username},#{trueName},#{password},#{phone},#{sex},#{createTime},#{updateTime},#{createBy},#{updateBy},#{status})")
+            "(#{username},#{trueName},#{id},#{password},#{phone},#{sex},#{createTime},#{updateTime})")
     void insert(User user);
 }
