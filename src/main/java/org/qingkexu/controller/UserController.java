@@ -3,6 +3,8 @@ package org.qingkexu.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.qingkexu.constant.MessageConstant;
+import org.qingkexu.exception.PasswordErrorException;
 import org.qingkexu.pojo.dto.UserDTO;
 import org.qingkexu.pojo.dto.UserLoginDTO;
 import org.qingkexu.pojo.entity.User;
@@ -31,7 +33,14 @@ public class UserController {
     @PostMapping("/login")
     @ApiOperation("用户登录")
     public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO){
-        User user = userService.login(userLoginDTO);
+        int[] code = new int[1];
+        User user = userService.login(userLoginDTO, code);
+        if(code[0]==3){
+            return Result.error(MessageConstant.PASSWORD_ERROR);
+        }
+        if (code[0]==2) {
+            return Result.error(MessageConstant.ACCOUNT_NOT_FOUND);
+        }
         UserLoginVO userLoginVO = UserLoginVO.builder()
                 .userId(user.getUserId())
                 .userName(user.getUsername())
@@ -58,8 +67,12 @@ public class UserController {
     @PostMapping("/register")
     @ApiOperation("用户注册")
     public Result save(@RequestBody UserDTO userDTO){
+        int[] code=new int[1];
+        userService.register(userDTO,code);
+        if(code[0]==1){
+            return Result.error(MessageConstant.USERNAME_ALREADY_EXISTS);
+        }
         log.info("新增用户：{}", userDTO);
-        userService.register(userDTO);
         return Result.success();
     }
 }

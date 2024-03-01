@@ -1,20 +1,14 @@
 package org.qingkexu.service.impl;
 
-import org.qingkexu.constant.MessageConstant;
-import org.qingkexu.constant.StatusConstant;
-import org.qingkexu.exception.AccountNotFoundException;
-import org.qingkexu.exception.PasswordErrorException;
 import org.qingkexu.mapper.UserMapper;
 import org.qingkexu.pojo.dto.UserDTO;
 import org.qingkexu.pojo.dto.UserLoginDTO;
 import org.qingkexu.pojo.entity.User;
 import org.qingkexu.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
-import javax.security.auth.login.AccountLockedException;
 import java.time.LocalDateTime;
 
 @Service
@@ -28,7 +22,7 @@ public class UserServiceImpl implements UserService {
      * @param userLoginDTO
      * @return
      */
-    public User login(UserLoginDTO userLoginDTO) {
+    public User login(UserLoginDTO userLoginDTO, int[] code) {
         String username = userLoginDTO.getUsername();
         String password = userLoginDTO.getPassword();
 
@@ -37,13 +31,17 @@ public class UserServiceImpl implements UserService {
 
         //处理异常
         if(user==null){
-            throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
+            code[0]=2;
+            //throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
+            return null;
         }
 
         // 密码对比md5
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         if(!password.equals(user.getPassword())){
-            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+            code[0]=3;
+            //throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+            return null;
         }
 
         //返回实体对象
@@ -51,17 +49,24 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     *  用户注册
+     * 用户注册
+     *
      * @param userDTO
+     * @param code
      */
-    public void register(UserDTO userDTO) {
+    public void register(UserDTO userDTO, int[] code) {
         User user = new User();
+        user.setUsername(userDTO.getUsername());
+        User usertemp= userMapper.getByUsername(user.getUsername());
+        if(usertemp!=null){
+            code[0]=1;
+            return;
+        }
         user.setId(userDTO.getId());
         user.setPassword(DigestUtils.md5DigestAsHex(userDTO.getPassword().getBytes()));
         user.setPhone(userDTO.getPhone());
         user.setSex(userDTO.getSex());
         user.setTrueName(userDTO.getTrueName());
-        user.setUsername(userDTO.getUsername());
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
         userMapper.insert(user);

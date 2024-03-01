@@ -11,11 +11,13 @@ public interface UserService {
      * @param userLoginDTO
      * @return
      */
-    User login(UserLoginDTO userLoginDTO);
+    User login(UserLoginDTO userLoginDTO, int[] code);
 
     /**
      * 用户注册
+     *
      * @param userDTO
+     * @param code
      */
-    void register(UserDTO userDTO);
+    void register(UserDTO userDTO, int[] code);
 }
