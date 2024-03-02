@@ -20,4 +20,11 @@ public interface UserService {
      * @param code
      */
     void register(UserDTO userDTO, int[] code);
+
+    /**
+     * 修改用户信息
+     * @param userDTO
+     * @param code
+     */
+    void change(UserDTO userDTO, int[] code);
 }

@@ -55,13 +55,12 @@ public class UserServiceImpl implements UserService {
      * @param code
      */
     public void register(UserDTO userDTO, int[] code) {
-        User user = new User();
-        user.setUsername(userDTO.getUsername());
-        User usertemp= userMapper.getByUsername(user.getUsername());
-        if(usertemp!=null){
+        if(userMapper.getByUsername(userDTO.getUsername())!=null){
             code[0]=1;
             return;
         }
+        User user = new User();
+        user.setUsername(userDTO.getUsername());
         user.setId(userDTO.getId());
         user.setPassword(DigestUtils.md5DigestAsHex(userDTO.getPassword().getBytes()));
         user.setPhone(userDTO.getPhone());
@@ -70,5 +69,28 @@ public class UserServiceImpl implements UserService {
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
         userMapper.insert(user);
+    }
+
+
+    public void change(UserDTO userDTO, int[] code) {
+        User user=userMapper.getByUserId(userDTO.getUserId());
+        if(user==null){
+            code[0]=1;
+            return;
+        }
+        if(userDTO.getUsername()!=null)
+            user.setUsername(userDTO.getUsername());
+        if(userDTO.getId()!=null)
+            user.setId(userDTO.getId());
+        if(userDTO.getPassword()!=null)
+            user.setPassword(DigestUtils.md5DigestAsHex(userDTO.getPassword().getBytes()));
+        if(userDTO.getPhone()!=null)
+            user.setPhone(userDTO.getPhone());
+        if(userDTO.getSex()!=null)
+            user.setSex(userDTO.getSex());
+        if(userDTO.getTrueName()!=null)
+            user.setTrueName(userDTO.getTrueName());
+        user.setUpdateTime(LocalDateTime.now());
+        userMapper.update(user);
     }
 }

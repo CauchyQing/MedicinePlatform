@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.constant.MessageConstant;
+import org.qingkexu.pojo.dto.FavoriteHospitalDTO;
 import org.qingkexu.pojo.entity.Hospital;
 import org.qingkexu.pojo.vo.HospitalVO;
 import org.qingkexu.result.Result;
@@ -40,5 +41,16 @@ public class HospitalController {
             hospitalVOS.add(hospitalVO);
         }
         return Result.success(hospitalVOS);
+    }
+
+    @PostMapping("/star")
+    public Result favorite(@RequestBody FavoriteHospitalDTO favoriteHospitalDTO){
+        int[] code=new int[1];
+        hospitalService.favorite(favoriteHospitalDTO, code);
+        if(code[0]==1){
+            return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
+        }
+        log.info("新增收藏：{}", favoriteHospitalDTO);
+        return Result.success();
     }
 }

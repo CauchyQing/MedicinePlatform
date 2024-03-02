@@ -23,8 +23,4 @@ public class HospitalVO implements Serializable {
     private String image;
     private boolean Star;
     private String info;
-    //合并以下三个
-//    private String orgTag1;
-//    private String orgTag2;
-//    private String orgTag3;
 }
