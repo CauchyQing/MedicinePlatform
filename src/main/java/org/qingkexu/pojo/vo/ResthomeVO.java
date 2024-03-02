@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Builder
@@ -21,6 +22,6 @@ public class ResthomeVO implements Serializable {
     private String address;
     private String phone;
     private String description;
-    private String image;
+    private List<String> image;
     private boolean star;
 }

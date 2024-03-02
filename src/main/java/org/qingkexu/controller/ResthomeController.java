@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -33,13 +34,22 @@ public class ResthomeController {
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         List<ResthomeVO> resthomeVOS=new ArrayList<ResthomeVO>();
+
         for(Resthome resthome:resthomes){
+            // 使用逗号分隔字符串
+            String[] imageUrlArray = resthome.getOldHomeImgUrl().split(",");
+
+            // 将数组转换为List
+            List<String> imageUrlList = Arrays.asList(imageUrlArray);
+
             ResthomeVO resthomeVO=ResthomeVO.builder().address(resthome.getOldHomeAddress())
                     .oldHomeBeds(resthome.getOldHomeBeds()).oldHomeId(resthome.getOldHomeId())
                     .oldHomeCity(resthome.getOldHomeCity()).description(resthome.getOldHomeIntro())
                     .price(resthome.getOldHomeMoney()).phone(resthome.getOldHomePhone())
                     .name(resthome.getOldHomeTitle()).info(resthome.getOldHomeType())
-                    .image(resthome.getOldHomeImgUrl()).build();
+                    .image(imageUrlList)
+                    .build();
+
             resthomeVOS.add(resthomeVO);
         }
         return Result.success(resthomeVOS);
