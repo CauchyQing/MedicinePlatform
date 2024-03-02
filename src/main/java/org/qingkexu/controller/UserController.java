@@ -85,12 +85,6 @@ public class UserController {
         if (code[0]==1){
             return Result.error(MessageConstant.EDIT_FAILED);
         }
-//        User user= userService.getByUserId(userDTO);
-//        UserLoginVO userLoginVO = UserLoginVO.builder()
-//                .userId(user.getUserId())
-//                .username(user.getUsername())
-//                .trueName(user.getTrueName())
-//                .build();
         log.info("修改用户：{}", userDTO);
         return Result.success();
     }
