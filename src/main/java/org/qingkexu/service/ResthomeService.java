@@ -5,5 +5,5 @@ import org.qingkexu.pojo.entity.Resthome;
 import java.util.List;
 
 public interface ResthomeService {
-    List<Resthome> getResthomes();
+    List<Resthome> getResthomes(int currentPage, int pageSize);
 }

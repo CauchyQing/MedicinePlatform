@@ -27,4 +27,6 @@ public interface UserService {
      * @param code
      */
     void change(UserDTO userDTO, int[] code);
+
+    User getByUserId(UserDTO userDTO);
 }

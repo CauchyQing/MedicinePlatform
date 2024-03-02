@@ -14,4 +14,5 @@ import java.io.Serializable;
 public class FavoriteHospital implements Serializable {
     private Long userId;
     private Long orgId;
+    private Long id;
 }

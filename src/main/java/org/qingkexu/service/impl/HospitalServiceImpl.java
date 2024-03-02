@@ -22,15 +22,31 @@ public class HospitalServiceImpl implements HospitalService {
     private UserMapper userMapper;
 
     public void favorite(FavoriteHospitalDTO favoriteHospitalDTO, int[] code) {
-        Long userId=favoriteHospitalDTO.getUserId();
+        int userId=favoriteHospitalDTO.getUserId();
         Long orgId=favoriteHospitalDTO.getOrgId();
-        if(userMapper.getByUserId(userId)==null || hospitalMapper.getById(orgId)==null){
+        Long userIdLong=(long) userId;
+        if(userMapper.getByUserId(userIdLong)==null || hospitalMapper.getById(orgId)==null){
             code[0]=1;
             return;
         }
         FavoriteHospital favoriteHospital = new FavoriteHospital();
-        BeanUtils.copyProperties(favoriteHospitalDTO,favoriteHospital);
+        //BeanUtils.copyProperties(favoriteHospitalDTO,favoriteHospital);
+        favoriteHospital.setUserId(userIdLong);
+        favoriteHospital.setOrgId(orgId);
         hospitalMapper.insert(favoriteHospital);
+    }
+
+
+    public void cancelFavorite(FavoriteHospitalDTO favoriteHospitalDTO, int[] code) {
+        int userId=favoriteHospitalDTO.getUserId();
+        Long orgId=favoriteHospitalDTO.getOrgId();
+        Long userIdLong=(long)userId;
+        //TODO 在fa表中找
+        if(hospitalMapper.getAFavorite(userIdLong,orgId)==null){
+            code[0]=1;
+            return;
+        }
+        hospitalMapper.deleteFavorite(userIdLong,orgId);
     }
 
     /**
@@ -39,5 +55,14 @@ public class HospitalServiceImpl implements HospitalService {
      */
     public List<Hospital> getHospitals() {
         return hospitalMapper.getAllHospital();
+    }
+
+    /**
+     * 获取收藏的医院
+     * @param userId
+     * @return
+     */
+    public List<Long> getFavorite(Long userId){
+        return hospitalMapper.getFavorite(userId);
     }
 }

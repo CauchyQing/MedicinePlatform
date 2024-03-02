@@ -1,5 +1,6 @@
 package org.qingkexu.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -21,4 +22,13 @@ public interface HospitalMapper {
             "values" +
             "(#{userId},#{orgId})")
     void insert(FavoriteHospital favoriteHospital);
+
+    @Select("select orgId from favorite_hospital where user_id=#{userId}")
+    List<Long> getFavorite(Long userId);
+
+    @Delete("delete from favorite_hospital where user_id=#{userId} and orgId=#{orgId}")
+    void deleteFavorite(Long userId, Long orgId);
+
+    @Select("select * from favorite_hospital where user_id=#{userId} and orgId=#{orgId}")
+    FavoriteHospital getAFavorite(Long userId, Long orgId);
 }

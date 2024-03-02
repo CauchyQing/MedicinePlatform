@@ -19,7 +19,8 @@ public class ResthomeServiceImpl implements ResthomeService {
      * @return
      */
     @Override
-    public List<Resthome> getResthomes() {
-        return resthomeMapper.getAllResthome();
+    public List<Resthome> getResthomes(int currentPage, int pageSize) {
+        int offset = (currentPage - 1) * pageSize;
+        return resthomeMapper.getAllResthome(pageSize, offset);
     }
 }

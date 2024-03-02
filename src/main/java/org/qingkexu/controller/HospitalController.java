@@ -24,10 +24,11 @@ public class HospitalController {
     @Autowired
     private HospitalService hospitalService;
 
-    @GetMapping("/get")
+    @GetMapping("/get/{userId}")
     @ApiOperation("获取所有医院信息")
-    public Result<List<HospitalVO>> getHospitals(){
+    public Result<List<HospitalVO>> getHospitals(@PathVariable Long userId){
         List<Hospital> hospitals=hospitalService.getHospitals();
+        List<Long> favorite = hospitalService.getFavorite(userId);
         if(hospitals==null){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
@@ -38,6 +39,9 @@ public class HospitalController {
                     .orgId(hospital.getOrgId()).description(hospital.getOrgInfo()).image(hospital.getOrgImg())
                     .address(hospital.getOrgLocation()).name(hospital.getOrgName()).info(info)
                     .phone(hospital.getOrgPhoneNum()).build();
+            if(favorite.contains(hospital.getOrgId())){
+                hospitalVO.setStar(true);
+            }
             hospitalVOS.add(hospitalVO);
         }
         return Result.success(hospitalVOS);
@@ -46,11 +50,22 @@ public class HospitalController {
     @PostMapping("/star")
     public Result favorite(@RequestBody FavoriteHospitalDTO favoriteHospitalDTO){
         int[] code=new int[1];
+        System.out.println(favoriteHospitalDTO);
         hospitalService.favorite(favoriteHospitalDTO, code);
         if(code[0]==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         log.info("新增收藏：{}", favoriteHospitalDTO);
+        return Result.success();
+    }
+
+    @DeleteMapping("/unstar")
+    public Result unFavorite(@RequestBody FavoriteHospitalDTO favoriteHospitalDTO){
+        int[] code=new int[1];
+        hospitalService.cancelFavorite(favoriteHospitalDTO, code);
+        if(code[0]==1){
+            return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
+        }
         return Result.success();
     }
 }

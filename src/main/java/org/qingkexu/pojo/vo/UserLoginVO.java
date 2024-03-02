@@ -20,7 +20,7 @@ public class UserLoginVO implements Serializable {
     private Long userId;
 
     @ApiModelProperty("用户名")
-    private String userName;
+    private String username;
 
     @ApiModelProperty("姓名")
     private String trueName;

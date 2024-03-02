@@ -11,6 +11,7 @@ import org.qingkexu.service.ResthomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -26,8 +27,8 @@ public class ResthomeController {
 
     @GetMapping("/get")
     @ApiOperation("获取所有养老院信息")
-    public Result<List<ResthomeVO>> getResthomes(){
-        List<Resthome> resthomes=resthomeService.getResthomes();
+    public Result<List<ResthomeVO>> getResthomes(@RequestParam int page, @RequestParam int pageSize, @RequestParam Long userId){
+        List<Resthome> resthomes=resthomeService.getResthomes(page, pageSize);
         if(resthomes==null){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
