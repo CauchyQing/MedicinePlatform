@@ -34,7 +34,19 @@ public class HospitalController {
         }
         List<HospitalVO> hospitalVOS = new ArrayList<HospitalVO>();
         for (Hospital hospital : hospitals) {
-            String info = hospital.getOrgTag1()+'、'+hospital.getOrgTag2()+'、'+hospital.getOrgTag3();
+            String info = "";
+            if(hospital.getOrgTag1()!=null){
+                info += hospital.getOrgTag1();
+            }
+            if(hospital.getOrgTag2()!=null){
+                info+='、';
+                info += hospital.getOrgTag2();
+            }
+            if(hospital.getOrgTag3()!=null){
+                info+='、';
+                info += hospital.getOrgTag3();
+            }
+
             HospitalVO hospitalVO = HospitalVO.builder()
                     .orgId(hospital.getOrgId()).description(hospital.getOrgInfo()).image(hospital.getOrgImg())
                     .address(hospital.getOrgLocation()).name(hospital.getOrgName()).info(info)

@@ -6,6 +6,6 @@ import java.io.Serializable;
 
 @Data
 public class FavoriteNewsDTO implements Serializable {
-    private Long userId;
+    private int userId;
     private Long newsId;
 }

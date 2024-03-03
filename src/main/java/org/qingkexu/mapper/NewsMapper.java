@@ -15,7 +15,7 @@ public interface NewsMapper {
     @Select("select * from org_paper where paper_id=#{newsId}")
     News getById(Long newsId);
 
-    @Insert("insert into favorite_news (use_id, news_id)" +
+    @Insert("insert into favorite_news (user_id, news_id)" +
             "values" +
             "(#{userId},#{newsId})")
     void insert(FavoriteNews favoriteNews);

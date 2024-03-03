@@ -1,5 +1,6 @@
 package org.qingkexu.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.mapper.HospitalMapper;
 import org.qingkexu.mapper.UserMapper;
 import org.qingkexu.pojo.dto.FavoriteHospitalDTO;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class HospitalServiceImpl implements HospitalService {
 
     @Autowired
@@ -30,7 +32,6 @@ public class HospitalServiceImpl implements HospitalService {
             return;
         }
         FavoriteHospital favoriteHospital = new FavoriteHospital();
-        //BeanUtils.copyProperties(favoriteHospitalDTO,favoriteHospital);
         favoriteHospital.setUserId(userIdLong);
         favoriteHospital.setOrgId(orgId);
         hospitalMapper.insert(favoriteHospital);
@@ -54,7 +55,7 @@ public class HospitalServiceImpl implements HospitalService {
      */
     public List<Hospital> getHospitals(int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        System.out.println("获取所有医院信息");
+        log.info("获取医院信息: "+page+"页");
         return hospitalMapper.getAllHospital(pageSize, offset);
     }
 

@@ -1,5 +1,6 @@
 package org.qingkexu.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.mapper.ResthomeMapper;
 import org.qingkexu.mapper.UserMapper;
 import org.qingkexu.pojo.dto.FavoriteResthomeDTO;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ResthomeServiceImpl implements ResthomeService {
 
     @Autowired
@@ -27,7 +29,7 @@ public class ResthomeServiceImpl implements ResthomeService {
     @Override
     public List<Resthome> getResthomes(int currentPage, int pageSize) {
         int offset = (currentPage - 1) * pageSize;
-        System.out.println("获取所有养老院信息");
+        log.info("获取养老院信息: "+currentPage+"页");
         return resthomeMapper.getAllResthome(pageSize, offset);
     }
 
