@@ -24,10 +24,10 @@ public class HospitalController {
     @Autowired
     private HospitalService hospitalService;
 
-    @GetMapping("/get/{userId}")
+    @GetMapping("/get")
     @ApiOperation("获取所有医院信息")
-    public Result<List<HospitalVO>> getHospitals(@PathVariable Long userId){
-        List<Hospital> hospitals=hospitalService.getHospitals();
+    public Result<List<HospitalVO>> getHospitals(@RequestParam int page, @RequestParam int pageSize, @RequestParam Long userId){
+        List<Hospital> hospitals=hospitalService.getHospitals(page, pageSize);
         List<Long> favorite = hospitalService.getFavorite(userId);
         if(hospitals==null){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);

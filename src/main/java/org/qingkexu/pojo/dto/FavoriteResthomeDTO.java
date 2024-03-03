@@ -6,6 +6,6 @@ import java.io.Serializable;
 
 @Data
 public class FavoriteResthomeDTO implements Serializable {
-    private Long userId;
-    private Long orgId;
+    private int userId;
+    private Integer orgId;
 }

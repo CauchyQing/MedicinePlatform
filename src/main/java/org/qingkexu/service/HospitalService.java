@@ -6,7 +6,6 @@ import org.qingkexu.pojo.entity.Hospital;
 import java.util.List;
 
 public interface HospitalService {
-    List<Hospital> getHospitals();
 
     void favorite(FavoriteHospitalDTO favoriteHospitalDTO, int[] code);
 
@@ -15,4 +14,5 @@ public interface HospitalService {
     List<Long> getFavorite(Long userId);
 
 
+    List<Hospital> getHospitals(int page, int pageSize);
 }

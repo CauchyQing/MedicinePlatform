@@ -1,9 +1,6 @@
 package org.qingkexu.mapper;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.qingkexu.pojo.entity.FavoriteHospital;
 import org.qingkexu.pojo.entity.Hospital;
 
@@ -12,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface HospitalMapper {
 
-    @Select("select * from hospitalinfo")
-    List<Hospital> getAllHospital();
+    @Select("select * from hospitalinfo LIMIT #{pageSize} OFFSET #{offset}")
+    List<Hospital> getAllHospital(@Param("pageSize") int pageSize, @Param("offset") int offset);
 
     @Select("select * from hospitalinfo where orgId=#{orgId}")
     Hospital getById(Long orgId);

@@ -22,4 +22,5 @@ public class Resthome implements Serializable {
     private String oldHomePhone;
     private String oldHomeIntro;
     private String oldHomeImgUrl;
+    private Integer OldHomeStartMoney;
 }

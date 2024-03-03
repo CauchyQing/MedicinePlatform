@@ -4,15 +4,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.constant.MessageConstant;
+import org.qingkexu.pojo.dto.FavoriteResthomeDTO;
 import org.qingkexu.pojo.entity.Resthome;
 import org.qingkexu.pojo.vo.ResthomeVO;
 import org.qingkexu.result.Result;
 import org.qingkexu.service.ResthomeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +28,7 @@ public class ResthomeController {
     @ApiOperation("获取所有养老院信息")
     public Result<List<ResthomeVO>> getResthomes(@RequestParam int page, @RequestParam int pageSize, @RequestParam Long userId){
         List<Resthome> resthomes=resthomeService.getResthomes(page, pageSize);
+        List<Integer> favorite=resthomeService.getFavorite(userId);
         if(resthomes==null){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
@@ -38,20 +37,41 @@ public class ResthomeController {
         for(Resthome resthome:resthomes){
             // 使用逗号分隔字符串
             String[] imageUrlArray = resthome.getOldHomeImgUrl().split(",");
-
             // 将数组转换为List
             List<String> imageUrlList = Arrays.asList(imageUrlArray);
-
             ResthomeVO resthomeVO=ResthomeVO.builder().address(resthome.getOldHomeAddress())
                     .oldHomeBeds(resthome.getOldHomeBeds()).oldHomeId(resthome.getOldHomeId())
                     .oldHomeCity(resthome.getOldHomeCity()).description(resthome.getOldHomeIntro())
-                    .price(resthome.getOldHomeMoney()).phone(resthome.getOldHomePhone())
+                    .price(resthome.getOldHomeStartMoney()).phone(resthome.getOldHomePhone())
                     .name(resthome.getOldHomeTitle()).info(resthome.getOldHomeType())
                     .image(imageUrlList)
                     .build();
-
+            if(favorite.contains(resthome.getOldHomeId())){
+                resthomeVO.setStar(true);
+            }
             resthomeVOS.add(resthomeVO);
         }
         return Result.success(resthomeVOS);
+    }
+
+    @PostMapping("/star")
+    public Result favorite(@RequestBody FavoriteResthomeDTO favoriteResthomeDTO){
+        int[] code = new int[1];
+        resthomeService.favorite(favoriteResthomeDTO,code);
+        if(code[0]==1){
+            return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
+        }
+        log.info("新增收藏：{}", favoriteResthomeDTO);
+        return Result.success();
+    }
+
+    @DeleteMapping("/unstar")
+    public Result unFavorite(@RequestBody FavoriteResthomeDTO favoriteResthomeDTO){
+        int[] code = new int[1];
+        resthomeService.cancelFavorite(favoriteResthomeDTO,code);
+        if(code[0]==1){
+            return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
+        }
+        return Result.success();
     }
 }

@@ -41,7 +41,6 @@ public class HospitalServiceImpl implements HospitalService {
         int userId=favoriteHospitalDTO.getUserId();
         Long orgId=favoriteHospitalDTO.getOrgId();
         Long userIdLong=(long)userId;
-        //TODO 在fa表中找
         if(hospitalMapper.getAFavorite(userIdLong,orgId)==null){
             code[0]=1;
             return;
@@ -53,8 +52,10 @@ public class HospitalServiceImpl implements HospitalService {
      * 获取所有医院信息
      * @return
      */
-    public List<Hospital> getHospitals() {
-        return hospitalMapper.getAllHospital();
+    public List<Hospital> getHospitals(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        System.out.println("获取所有医院信息");
+        return hospitalMapper.getAllHospital(pageSize, offset);
     }
 
     /**
