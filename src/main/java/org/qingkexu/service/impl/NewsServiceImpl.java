@@ -26,7 +26,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public List<News> getNews(int page, int pageSize) {
         int offset = (page - 1) * pageSize;
-        log.info("获取养老院信息: "+page+"页");
+        log.info("获取新闻信息: "+page+"页");
         return newsMapper.getAllNews(pageSize,offset);
     }
 
@@ -60,5 +60,10 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public List<Long> getFavorite(Long userId) {
         return newsMapper.getFavorite(userId);
+    }
+
+    @Override
+    public News getANewById(Long newsId) {
+        return newsMapper.getById(newsId);
     }
 }

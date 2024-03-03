@@ -14,4 +14,6 @@ public interface ResthomeService {
     void cancelFavorite(FavoriteResthomeDTO favoriteResthomeDTO, int[] code);
 
     List<Integer> getFavorite(Long userId);
+
+    Resthome getAResthomeById(Integer orgId);
 }

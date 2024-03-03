@@ -67,4 +67,9 @@ public class HospitalServiceImpl implements HospitalService {
     public List<Long> getFavorite(Long userId){
         return hospitalMapper.getFavorite(userId);
     }
+
+    @Override
+    public Hospital getAHospitalById(Long orgId) {
+        return hospitalMapper.getById(orgId);
+    }
 }

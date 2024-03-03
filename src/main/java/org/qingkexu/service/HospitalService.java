@@ -13,6 +13,7 @@ public interface HospitalService {
 
     List<Long> getFavorite(Long userId);
 
+    Hospital getAHospitalById(Long orgId);
 
     List<Hospital> getHospitals(int page, int pageSize);
 }

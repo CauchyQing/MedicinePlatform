@@ -13,4 +13,6 @@ public interface NewsService {
     void cancelFavorite(FavoriteNewsDTO favoriteNewsDTO,int[] code);
 
     List<Long> getFavorite(Long userId);
+
+    News getANewById(Long newsId);
 }

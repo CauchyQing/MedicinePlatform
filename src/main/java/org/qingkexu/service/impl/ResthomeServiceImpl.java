@@ -64,4 +64,9 @@ public class ResthomeServiceImpl implements ResthomeService {
     public List<Integer> getFavorite(Long userId) {
         return resthomeMapper.getFavorite(userId);
     }
+
+    @Override
+    public Resthome getAResthomeById(Integer orgId) {
+        return resthomeMapper.getById(orgId);
+    }
 }
