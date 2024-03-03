@@ -21,7 +21,6 @@ public class Hospital implements Serializable {
     private String orgInfo;
     private String orgLogo;
     private String orgImg;
-    //private int orgStar;
     private String orgTag1;
     private String orgTag2;
     private String orgTag3;
