@@ -12,6 +12,7 @@ import org.qingkexu.service.ResthomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -77,14 +78,7 @@ public class ResthomeServiceImpl implements ResthomeService {
         int userId= commentDTO.getUserId();
         Long orgId= commentDTO.getOrgId();
         Long userIdLong=(long)userId;
-    }
-
-    /*    @Override
-    public void comment(CommentDTO commentDTO, int[] code) {
-        int userId= commentDTO.getUserId();
-        Long orgId= commentDTO.getOrgId();
-        Long userIdLong=(long)userId;
-        if(userMapper.getByUserId(userIdLong)==null || hospitalMapper.getById(orgId)==null){
+        if(userMapper.getByUserId(userIdLong)==null || resthomeMapper.getById(orgId)==null){
             code[0]=1;
             return;
         }
@@ -93,15 +87,11 @@ public class ResthomeServiceImpl implements ResthomeService {
         comment.setOrgId(orgId);
         comment.setUserId(userIdLong);
         comment.setPostTime(LocalDateTime.now());
-        hospitalMapper.comment(comment);
+        resthomeMapper.comment(comment);
     }
-
+    
     @Override
     public List<Comment> getComment(Long orgId) {
-        return hospitalMapper.getAllCommentByOrgId(orgId);
-    }*/
-    @Override
-    public List<Comment> getComment(Long orgId) {
-        return null;
+        return resthomeMapper.getAllCommentByOrgId(orgId);
     }
 }

@@ -38,7 +38,7 @@ public class GetAllStarController {
     @GetMapping("/{userId}")
     public Result getAllFavorite(@PathVariable Long userId){
         List<Long> favoriteHospitals=hospitalService.getFavorite(userId);
-        List<Integer> favoriteResthomes=resthomeService.getFavorite(userId);
+        List<Long> favoriteResthomes=resthomeService.getFavorite(userId);
         List<Long> favoriteNewses=newsService.getFavorite(userId);
         List<HospitalVO> hospitalVOS = new ArrayList<HospitalVO>();
         List<ResthomeVO> resthomeVOS=new ArrayList<ResthomeVO>();
@@ -69,7 +69,7 @@ public class GetAllStarController {
             }
             hospitalVOS.add(hospitalVO);
         }
-        for(Integer favoriteResthome:favoriteResthomes){
+        for(Long favoriteResthome:favoriteResthomes){
             Resthome resthome=resthomeService.getAResthomeById(favoriteResthome);
             // 使用逗号分隔字符串
             String[] imageUrlArray = resthome.getOldHomeImgUrl().split(",");

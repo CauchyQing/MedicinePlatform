@@ -4,11 +4,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.constant.MessageConstant;
+import org.qingkexu.pojo.dto.CommentDTO;
 import org.qingkexu.pojo.dto.FavoriteResthomeDTO;
+import org.qingkexu.pojo.entity.Comment;
 import org.qingkexu.pojo.entity.Resthome;
+import org.qingkexu.pojo.vo.CommentVO;
 import org.qingkexu.pojo.vo.ResthomeVO;
 import org.qingkexu.result.Result;
 import org.qingkexu.service.ResthomeService;
+import org.qingkexu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +27,9 @@ import java.util.List;
 public class ResthomeController {
     @Autowired
     private ResthomeService resthomeService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/get")
     @ApiOperation("获取所有养老院信息")
@@ -73,5 +80,32 @@ public class ResthomeController {
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         return Result.success();
+    }
+
+    @PostMapping("/comment")
+    public Result comment(@RequestBody CommentDTO commentDTO){
+        int[] code = new int[1];
+        log.info(commentDTO.toString());
+        resthomeService.comment(commentDTO,code);
+        if(code[0]==1){
+            return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
+        }
+        log.info("新增评论：{}", commentDTO);
+        return Result.success();
+    }
+
+    @GetMapping("/comment/{orgId}")
+    public Result getComment(@PathVariable Long orgId){
+        List<Comment> commentList =resthomeService.getComment(orgId);
+        List<CommentVO> commentVOS =new ArrayList<CommentVO>();
+        for(Comment comment : commentList){
+            CommentVO commentVO =new CommentVO();
+            String username=userService.getNameByUserId(comment.getUserId());
+            commentVO.setComment(comment.getComment());
+            commentVO.setUsername(username);
+            commentVO.setPostTime(comment.getPostTime());
+            commentVOS.add(commentVO);
+        }
+        return Result.success(commentVOS);
     }
 }

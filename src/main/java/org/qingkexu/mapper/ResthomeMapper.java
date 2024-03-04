@@ -1,7 +1,7 @@
 package org.qingkexu.mapper;
 
 import org.apache.ibatis.annotations.*;
-import org.qingkexu.pojo.entity.FavoriteHospital;
+import org.qingkexu.pojo.entity.Comment;
 import org.qingkexu.pojo.entity.FavoriteResthome;
 import org.qingkexu.pojo.entity.Resthome;
 
@@ -29,4 +29,10 @@ public interface ResthomeMapper {
 
     @Select("select * from favorite_resthome where user_id=#{userId} and resthome_id=#{orgId}")
     FavoriteResthome getAFavorite(Long userId, Long orgId);
+
+    @Insert("insert into comment_resthome (user_id, org_id, comment, post_time) values (#{userId}, #{orgId}, #{comment}, #{postTime})")
+    void comment(Comment comment);
+
+    @Select("select * from comment_resthome where org_id=#{orgId}")
+    List<Comment> getAllCommentByOrgId(Long orgId);
 }
