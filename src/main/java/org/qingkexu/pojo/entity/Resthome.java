@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Resthome implements Serializable {
-    private int oldHomeId;
+    private Long oldHomeId;
     private String oldHomeTitle;
     private String oldHomeMoney;
     private String oldHomeBeds;

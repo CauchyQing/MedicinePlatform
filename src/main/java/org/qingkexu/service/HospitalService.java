@@ -1,6 +1,8 @@
 package org.qingkexu.service;
 
+import org.qingkexu.pojo.dto.CommentDTO;
 import org.qingkexu.pojo.dto.FavoriteHospitalDTO;
+import org.qingkexu.pojo.entity.Comment;
 import org.qingkexu.pojo.entity.Hospital;
 
 import java.util.List;
@@ -16,4 +18,8 @@ public interface HospitalService {
     Hospital getAHospitalById(Long orgId);
 
     List<Hospital> getHospitals(int page, int pageSize);
+
+    void comment(CommentDTO commentDTO, int[] code);
+
+    List<Comment> getComment(Long orgId);
 }

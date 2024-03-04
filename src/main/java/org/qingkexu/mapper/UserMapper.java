@@ -15,6 +15,9 @@ public interface UserMapper {
     @Select("select * from client_user where user_id=#{userId}")
     User getByUserId(Long userId);
 
+    @Select("select username from client_user where user_id=#{userIds}")
+    String getNameById(Long userIds);
+
     @Insert("insert into client_user (username, true_name, id, password, phone, sex, create_time, update_time) " +
             "values" +
             "(#{username},#{trueName},#{id},#{password},#{phone},#{sex},#{createTime},#{updateTime})")

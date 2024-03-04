@@ -3,7 +3,9 @@ package org.qingkexu.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.mapper.ResthomeMapper;
 import org.qingkexu.mapper.UserMapper;
+import org.qingkexu.pojo.dto.CommentDTO;
 import org.qingkexu.pojo.dto.FavoriteResthomeDTO;
+import org.qingkexu.pojo.entity.Comment;
 import org.qingkexu.pojo.entity.FavoriteResthome;
 import org.qingkexu.pojo.entity.Resthome;
 import org.qingkexu.service.ResthomeService;
@@ -36,7 +38,7 @@ public class ResthomeServiceImpl implements ResthomeService {
     @Override
     public void favorite(FavoriteResthomeDTO favoriteResthomeDTO, int[] code) {
         Integer userId=favoriteResthomeDTO.getUserId();
-        Integer orgId=favoriteResthomeDTO.getOrgId();
+        Long orgId=favoriteResthomeDTO.getOrgId();
         Long userIdLong=(long)userId;
         if(userMapper.getByUserId(userIdLong)==null||resthomeMapper.getById(orgId)==null){
             code[0]=1;
@@ -51,7 +53,7 @@ public class ResthomeServiceImpl implements ResthomeService {
     @Override
     public void cancelFavorite(FavoriteResthomeDTO favoriteResthomeDTO, int[] code) {
         int userId=favoriteResthomeDTO.getUserId();
-        Integer orgId=favoriteResthomeDTO.getOrgId();
+        Long orgId=favoriteResthomeDTO.getOrgId();
         Long userIdLong=(long)userId;
         if(resthomeMapper.getAFavorite(userIdLong,orgId)==null){
             code[0]=1;
@@ -61,12 +63,45 @@ public class ResthomeServiceImpl implements ResthomeService {
     }
 
     @Override
-    public List<Integer> getFavorite(Long userId) {
+    public List<Long> getFavorite(Long userId) {
         return resthomeMapper.getFavorite(userId);
     }
 
     @Override
-    public Resthome getAResthomeById(Integer orgId) {
+    public Resthome getAResthomeById(Long orgId) {
         return resthomeMapper.getById(orgId);
+    }
+
+    @Override
+    public void comment(CommentDTO commentDTO, int[] code) {
+        int userId= commentDTO.getUserId();
+        Long orgId= commentDTO.getOrgId();
+        Long userIdLong=(long)userId;
+    }
+
+    /*    @Override
+    public void comment(CommentDTO commentDTO, int[] code) {
+        int userId= commentDTO.getUserId();
+        Long orgId= commentDTO.getOrgId();
+        Long userIdLong=(long)userId;
+        if(userMapper.getByUserId(userIdLong)==null || hospitalMapper.getById(orgId)==null){
+            code[0]=1;
+            return;
+        }
+        Comment comment =new Comment();
+        comment.setComment(commentDTO.getComment());
+        comment.setOrgId(orgId);
+        comment.setUserId(userIdLong);
+        comment.setPostTime(LocalDateTime.now());
+        hospitalMapper.comment(comment);
+    }
+
+    @Override
+    public List<Comment> getComment(Long orgId) {
+        return hospitalMapper.getAllCommentByOrgId(orgId);
+    }*/
+    @Override
+    public List<Comment> getComment(Long orgId) {
+        return null;
     }
 }

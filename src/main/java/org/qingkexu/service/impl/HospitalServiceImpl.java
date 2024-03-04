@@ -3,14 +3,16 @@ package org.qingkexu.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.mapper.HospitalMapper;
 import org.qingkexu.mapper.UserMapper;
+import org.qingkexu.pojo.dto.CommentDTO;
 import org.qingkexu.pojo.dto.FavoriteHospitalDTO;
+import org.qingkexu.pojo.entity.Comment;
 import org.qingkexu.pojo.entity.FavoriteHospital;
 import org.qingkexu.pojo.entity.Hospital;
 import org.qingkexu.service.HospitalService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -57,6 +59,28 @@ public class HospitalServiceImpl implements HospitalService {
         int offset = (page - 1) * pageSize;
         log.info("获取医院信息: "+page+"页");
         return hospitalMapper.getAllHospital(pageSize, offset);
+    }
+
+    @Override
+    public void comment(CommentDTO commentDTO, int[] code) {
+        int userId= commentDTO.getUserId();
+        Long orgId= commentDTO.getOrgId();
+        Long userIdLong=(long)userId;
+        if(userMapper.getByUserId(userIdLong)==null || hospitalMapper.getById(orgId)==null){
+            code[0]=1;
+            return;
+        }
+        Comment comment =new Comment();
+        comment.setComment(commentDTO.getComment());
+        comment.setOrgId(orgId);
+        comment.setUserId(userIdLong);
+        comment.setPostTime(LocalDateTime.now());
+        hospitalMapper.comment(comment);
+    }
+
+    @Override
+    public List<Comment> getComment(Long orgId) {
+        return hospitalMapper.getAllCommentByOrgId(orgId);
     }
 
     /**

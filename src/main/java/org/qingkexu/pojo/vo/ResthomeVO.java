@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResthomeVO implements Serializable {
-    private Integer oldHomeId;
+    private Long oldHomeId;
     private String name;
     private Integer price;
     private String oldHomeBeds;

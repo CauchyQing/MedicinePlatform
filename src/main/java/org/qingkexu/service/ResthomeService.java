@@ -1,7 +1,9 @@
 package org.qingkexu.service;
 
+import org.qingkexu.pojo.dto.CommentDTO;
 import org.qingkexu.pojo.dto.FavoriteHospitalDTO;
 import org.qingkexu.pojo.dto.FavoriteResthomeDTO;
+import org.qingkexu.pojo.entity.Comment;
 import org.qingkexu.pojo.entity.Resthome;
 
 import java.util.List;
@@ -13,7 +15,11 @@ public interface ResthomeService {
 
     void cancelFavorite(FavoriteResthomeDTO favoriteResthomeDTO, int[] code);
 
-    List<Integer> getFavorite(Long userId);
+    List<Long> getFavorite(Long userId);
 
-    Resthome getAResthomeById(Integer orgId);
+    Resthome getAResthomeById(Long orgId);
+
+    void comment(CommentDTO commentDTO, int[] code);
+
+    List<Comment> getComment(Long orgId);
 }

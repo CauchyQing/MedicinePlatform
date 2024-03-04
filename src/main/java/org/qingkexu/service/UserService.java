@@ -4,6 +4,8 @@ import org.qingkexu.pojo.dto.UserDTO;
 import org.qingkexu.pojo.dto.UserLoginDTO;
 import org.qingkexu.pojo.entity.User;
 
+import java.util.List;
+
 public interface UserService {
 
     /**
@@ -28,5 +30,5 @@ public interface UserService {
      */
     void change(UserDTO userDTO, int[] code);
 
-    User getByUserId(UserDTO userDTO);
+    String getNameByUserId(Long userId);
 }

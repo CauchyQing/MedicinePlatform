@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -94,8 +95,7 @@ public class UserServiceImpl implements UserService {
         userMapper.update(user);
     }
 
-    @Override
-    public User getByUserId(UserDTO userDTO) {
-        return userMapper.getByUserId(userDTO.getUserId());
+    public String getNameByUserId(Long userIds) {
+        return userMapper.getNameById(userIds);
     }
 }

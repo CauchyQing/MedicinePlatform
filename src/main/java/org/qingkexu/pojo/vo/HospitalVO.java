@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Builder
@@ -23,4 +24,5 @@ public class HospitalVO implements Serializable {
     private String image;
     private boolean Star;
     private String info;
+    //private List<CommentHospitalVO> commentHospitalVOS;
 }

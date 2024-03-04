@@ -28,7 +28,7 @@ public class ResthomeController {
     @ApiOperation("获取所有养老院信息")
     public Result<List<ResthomeVO>> getResthomes(@RequestParam int page, @RequestParam int pageSize, @RequestParam Long userId){
         List<Resthome> resthomes=resthomeService.getResthomes(page, pageSize);
-        List<Integer> favorite=resthomeService.getFavorite(userId);
+        List<Long> favorite=resthomeService.getFavorite(userId);
         if(resthomes==null){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }

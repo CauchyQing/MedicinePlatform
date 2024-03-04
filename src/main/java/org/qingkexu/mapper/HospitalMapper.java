@@ -1,6 +1,7 @@
 package org.qingkexu.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.qingkexu.pojo.entity.Comment;
 import org.qingkexu.pojo.entity.FavoriteHospital;
 import org.qingkexu.pojo.entity.Hospital;
 
@@ -28,4 +29,10 @@ public interface HospitalMapper {
 
     @Select("select * from favorite_hospital where user_id=#{userId} and orgId=#{orgId}")
     FavoriteHospital getAFavorite(Long userId, Long orgId);
+
+    @Insert("insert into comment_hospital (user_id, org_id, comment, post_time) values (#{userId}, #{orgId}, #{comment}, #{postTime})")
+    void comment(Comment comment);
+
+    @Select("select * from comment_hospital where org_id=#{orgId}")
+    List<Comment> getAllCommentByOrgId(Long orgId);
 }
