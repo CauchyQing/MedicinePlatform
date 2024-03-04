@@ -1,7 +1,9 @@
 package org.qingkexu.service;
 
+import org.qingkexu.pojo.dto.HealthInfoDTO;
 import org.qingkexu.pojo.dto.UserDTO;
 import org.qingkexu.pojo.dto.UserLoginDTO;
+import org.qingkexu.pojo.entity.HealthInfo;
 import org.qingkexu.pojo.entity.User;
 
 import java.util.List;
@@ -31,4 +33,10 @@ public interface UserService {
     void change(UserDTO userDTO, int[] code);
 
     String getNameByUserId(Long userId);
+
+    HealthInfo getHealthInfoByUserId(Long userId);
+
+    void updateHealthInfo(HealthInfoDTO healthInfoDTO, int[] code);
+
+    void insertHealthInfo(Long userId);
 }

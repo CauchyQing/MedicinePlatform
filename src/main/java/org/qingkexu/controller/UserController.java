@@ -4,9 +4,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.constant.MessageConstant;
+import org.qingkexu.pojo.dto.HealthInfoDTO;
 import org.qingkexu.pojo.dto.UserDTO;
 import org.qingkexu.pojo.dto.UserLoginDTO;
+import org.qingkexu.pojo.entity.HealthInfo;
 import org.qingkexu.pojo.entity.User;
+import org.qingkexu.pojo.vo.HealthInfoVO;
 import org.qingkexu.pojo.vo.UserLoginVO;
 import org.qingkexu.result.Result;
 import org.qingkexu.service.UserService;
@@ -86,6 +89,34 @@ public class UserController {
             return Result.error(MessageConstant.EDIT_FAILED);
         }
         log.info("修改用户：{}", userDTO);
+        return Result.success();
+    }
+
+    @GetMapping("/health/{userId}")
+    public Result getHealthInfo(@PathVariable Long userId){
+        HealthInfo healthInfo=userService.getHealthInfoByUserId(userId);
+
+        if(healthInfo==null){
+            log.info("没找到健康信息");
+            userService.insertHealthInfo(userId);
+            healthInfo=userService.getHealthInfoByUserId(userId);
+        }
+        HealthInfoVO healthInfoVO=HealthInfoVO.builder().bloodFat(healthInfo.getBloodFat())
+                .bloodSugar(healthInfo.getBloodSugar()).bloodHighPressure(healthInfo.getBloodHighPressure())
+                .bloodLowPressure(healthInfo.getBloodLowPressure()).heartbeat(healthInfo.getHeartbeat())
+                .height(healthInfo.getHeight()).medicalHistory(healthInfo.getMedicalHistory())
+                .special(healthInfo.getSpecial()).temperature(healthInfo.getTemperature()).build();
+        return Result.success(healthInfoVO);
+    }
+
+    @PostMapping("/health/update")
+    public Result updateHealthInfo(@RequestBody HealthInfoDTO healthInfoDTO){
+        log.info(healthInfoDTO.toString());
+        int[] code=new int[1];
+        userService.updateHealthInfo(healthInfoDTO,code);
+        if(code[0]==1){
+            return Result.error(MessageConstant.EDIT_FAILED);
+        }
         return Result.success();
     }
 }
