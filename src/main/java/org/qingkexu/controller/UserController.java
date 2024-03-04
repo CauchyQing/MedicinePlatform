@@ -105,7 +105,7 @@ public class UserController {
                 .bloodSugar(healthInfo.getBloodSugar()).bloodHighPressure(healthInfo.getBloodHighPressure())
                 .bloodLowPressure(healthInfo.getBloodLowPressure()).heartbeat(healthInfo.getHeartbeat())
                 .height(healthInfo.getHeight()).medicalHistory(healthInfo.getMedicalHistory())
-                .special(healthInfo.getSpecial()).temperature(healthInfo.getTemperature()).build();
+                .special(healthInfo.getSpecial()).temperature(healthInfo.getTemperature()).weight(healthInfo.getWeight()).build();
         return Result.success(healthInfoVO);
     }
 
