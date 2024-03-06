@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//TODO
 @Service
 @Slf4j
 public class NewsServiceImpl implements NewsService {
@@ -23,14 +22,23 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private UserMapper userMapper;
 
-    @Override
+    /**
+     * 获取新闻
+     * @param page
+     * @param pageSize
+     * @return
+     */
     public List<News> getNews(int page, int pageSize) {
         int offset = (page - 1) * pageSize;
         log.info("获取新闻信息: "+page+"页");
         return newsMapper.getAllNews(pageSize,offset);
     }
 
-    @Override
+    /**
+     * 收藏一条新闻
+     * @param favoriteNewsDTO
+     * @param code
+     */
     public void favorite(FavoriteNewsDTO favoriteNewsDTO, int[] code) {
         int userId=favoriteNewsDTO.getUserId();
         Long newsId= favoriteNewsDTO.getNewsId();
@@ -45,7 +53,11 @@ public class NewsServiceImpl implements NewsService {
         newsMapper.insert(favoriteNews);
     }
 
-    @Override
+    /**
+     * 取消收藏
+     * @param favoriteNewsDTO
+     * @param code
+     */
     public void cancelFavorite(FavoriteNewsDTO favoriteNewsDTO, int[] code) {
         int userId=favoriteNewsDTO.getUserId();
         Long newsId= favoriteNewsDTO.getNewsId();
@@ -57,12 +69,20 @@ public class NewsServiceImpl implements NewsService {
         newsMapper.deleteFavorite(userIdLong,newsId);
     }
 
-    @Override
+    /**
+     * 获得一个用户收藏的所有新闻
+     * @param userId
+     * @return
+     */
     public List<Long> getFavorite(Long userId) {
         return newsMapper.getFavorite(userId);
     }
 
-    @Override
+    /**
+     * 获取一条新闻
+     * @param newsId
+     * @return
+     */
     public News getANewById(Long newsId) {
         return newsMapper.getById(newsId);
     }

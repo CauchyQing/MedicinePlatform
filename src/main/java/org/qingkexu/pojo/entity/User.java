@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements Serializable {
-    private long userId;
+    private Long userId;
     private String  id;
     private String username;
     private String password;

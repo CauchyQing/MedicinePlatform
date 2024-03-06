@@ -67,6 +67,7 @@ public class UserController {
     @ApiOperation("用户注册")
     public Result save(@RequestBody UserDTO userDTO){
         int[] code=new int[1];
+        log.info(userDTO.toString());
         userService.register(userDTO,code);
         if(code[0]==1){
             return Result.error(MessageConstant.USERNAME_ALREADY_EXISTS);

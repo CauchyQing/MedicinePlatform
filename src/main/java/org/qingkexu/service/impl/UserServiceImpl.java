@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -71,11 +70,15 @@ public class UserServiceImpl implements UserService {
         user.setTrueName(userDTO.getTrueName());
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
-        userMapper.insertHealthInfo(userDTO.getUserId());
-        userMapper.insert(user);
+        userMapper.insert(user);;
+        userMapper.insertHealthInfo(userMapper.getByUsername(userDTO.getUsername()).getUserId());
     }
 
-
+    /**
+     * 修改用户信息
+     * @param userDTO
+     * @param code
+     */
     public void change(UserDTO userDTO, int[] code) {
         User user=userMapper.getByUserId(userDTO.getUserId());
         if(user==null){
@@ -98,16 +101,29 @@ public class UserServiceImpl implements UserService {
         userMapper.update(user);
     }
 
+    /**
+     * 根据id返回用户名
+     * @param userIds
+     * @return
+     */
     public String getNameByUserId(Long userIds) {
         return userMapper.getNameById(userIds);
     }
 
-    @Override
+    /**
+     * 根据id返回健康信息
+     * @param userId
+     * @return
+     */
     public HealthInfo getHealthInfoByUserId(Long userId) {
         return userMapper.getHealthInfoByUserId(userId);
     }
 
-    @Override
+    /**
+     * 更新用户健康信息
+     * @param healthInfoDTO
+     * @param code
+     */
     public void updateHealthInfo(HealthInfoDTO healthInfoDTO, int[] code) {
         HealthInfo healthInfo=userMapper.getHealthInfoByUserId(healthInfoDTO.getUserId());
         if(healthInfo==null){
@@ -138,7 +154,10 @@ public class UserServiceImpl implements UserService {
         userMapper.updateHealthInfo(healthInfo);
     }
 
-    @Override
+    /**
+     * 插入一条健康信息
+     * @param userId
+     */
     public void insertHealthInfo(Long userId) {
         userMapper.insertHealthInfo(userId);
     }

@@ -25,6 +25,11 @@ public class HospitalServiceImpl implements HospitalService {
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * 用户收藏一家医院
+     * @param favoriteHospitalDTO
+     * @param code
+     */
     public void favorite(FavoriteHospitalDTO favoriteHospitalDTO, int[] code) {
         int userId=favoriteHospitalDTO.getUserId();
         Long orgId=favoriteHospitalDTO.getOrgId();
@@ -39,7 +44,11 @@ public class HospitalServiceImpl implements HospitalService {
         hospitalMapper.insert(favoriteHospital);
     }
 
-
+    /**
+     * 用户取消收藏
+     * @param favoriteHospitalDTO
+     * @param code
+     */
     public void cancelFavorite(FavoriteHospitalDTO favoriteHospitalDTO, int[] code) {
         int userId=favoriteHospitalDTO.getUserId();
         Long orgId=favoriteHospitalDTO.getOrgId();
@@ -61,7 +70,11 @@ public class HospitalServiceImpl implements HospitalService {
         return hospitalMapper.getAllHospital(pageSize, offset);
     }
 
-    @Override
+    /**
+     * 用户评论
+     * @param commentDTO
+     * @param code
+     */
     public void comment(CommentDTO commentDTO, int[] code) {
         int userId= commentDTO.getUserId();
         Long orgId= commentDTO.getOrgId();
@@ -78,7 +91,11 @@ public class HospitalServiceImpl implements HospitalService {
         hospitalMapper.comment(comment);
     }
 
-    @Override
+    /**
+     * 获取一家医院的所有评论
+     * @param orgId
+     * @return
+     */
     public List<Comment> getComment(Long orgId) {
         return hospitalMapper.getAllCommentByOrgId(orgId);
     }
@@ -92,7 +109,11 @@ public class HospitalServiceImpl implements HospitalService {
         return hospitalMapper.getFavorite(userId);
     }
 
-    @Override
+    /**
+     * 通过医院id获取一家医院
+     * @param orgId
+     * @return
+     */
     public Hospital getAHospitalById(Long orgId) {
         return hospitalMapper.getById(orgId);
     }
