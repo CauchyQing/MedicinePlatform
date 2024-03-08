@@ -5,7 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.constant.MessageConstant;
 import org.qingkexu.pojo.dto.CommentDTO;
-import org.qingkexu.pojo.dto.FavoriteResthomeDTO;
+import org.qingkexu.pojo.dto.OrgDTO;
+import org.qingkexu.pojo.dto.ResthomeDTO;
 import org.qingkexu.pojo.entity.Comment;
 import org.qingkexu.pojo.entity.Resthome;
 import org.qingkexu.pojo.vo.CommentVO;
@@ -62,20 +63,20 @@ public class ResthomeController {
     }
 
     @PostMapping("/star")
-    public Result favorite(@RequestBody FavoriteResthomeDTO favoriteResthomeDTO){
+    public Result favorite(@RequestBody ResthomeDTO resthomeDTO){
         int[] code = new int[1];
-        resthomeService.favorite(favoriteResthomeDTO,code);
+        resthomeService.favorite(resthomeDTO,code);
         if(code[0]==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
-        log.info("新增收藏：{}", favoriteResthomeDTO);
+        log.info("新增收藏：{}", resthomeDTO);
         return Result.success();
     }
 
     @DeleteMapping("/unstar")
-    public Result unFavorite(@RequestBody FavoriteResthomeDTO favoriteResthomeDTO){
+    public Result unFavorite(@RequestBody ResthomeDTO resthomeDTO){
         int[] code = new int[1];
-        resthomeService.cancelFavorite(favoriteResthomeDTO,code);
+        resthomeService.cancelFavorite(resthomeDTO,code);
         if(code[0]==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
@@ -107,5 +108,16 @@ public class ResthomeController {
             commentVOS.add(commentVO);
         }
         return Result.success(commentVOS);
+    }
+
+    @PostMapping("/consult")
+    public Result consult(@RequestBody OrgDTO orgDTO) {
+        int[] code = new int[1];
+        log.info(orgDTO.toString());
+        userService.consultResthome(orgDTO, code);
+        if (code[0] == 1) {
+            return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
+        }
+        return Result.success();
     }
 }

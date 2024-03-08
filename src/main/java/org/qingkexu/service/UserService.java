@@ -1,9 +1,11 @@
 package org.qingkexu.service;
 
 import org.qingkexu.pojo.dto.HealthInfoDTO;
+import org.qingkexu.pojo.dto.OrgDTO;
 import org.qingkexu.pojo.dto.UserDTO;
 import org.qingkexu.pojo.dto.UserLoginDTO;
 import org.qingkexu.pojo.entity.HealthInfo;
+import org.qingkexu.pojo.entity.Recommend;
 import org.qingkexu.pojo.entity.User;
 
 import java.util.List;
@@ -39,4 +41,12 @@ public interface UserService {
     void updateHealthInfo(HealthInfoDTO healthInfoDTO, int[] code);
 
     void insertHealthInfo(Long userId);
+
+    User getByUserId(Long userId);
+
+    void consultHospital(OrgDTO orgDTO, int[] code);
+
+    void consultResthome(OrgDTO orgDTO, int[] code);
+
+    List<Recommend> getRecommend(Long userId, int[] code);
 }

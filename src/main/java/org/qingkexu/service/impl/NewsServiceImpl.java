@@ -40,16 +40,15 @@ public class NewsServiceImpl implements NewsService {
      * @param code
      */
     public void favorite(FavoriteNewsDTO favoriteNewsDTO, int[] code) {
-        int userId=favoriteNewsDTO.getUserId();
+        Long userId=favoriteNewsDTO.getUserId();
         Long newsId= favoriteNewsDTO.getNewsId();
-        Long userIdLong=(long)userId;
-        if(userMapper.getByUserId(userIdLong)==null||newsMapper.getById(newsId)==null){
+        if(userMapper.getByUserId(userId)==null||newsMapper.getById(newsId)==null){
             code[0]=1;
             return;
         }
         FavoriteNews favoriteNews=new FavoriteNews();
         favoriteNews.setNewsId(newsId);
-        favoriteNews.setUserId(userIdLong);
+        favoriteNews.setUserId(userId);
         newsMapper.insert(favoriteNews);
     }
 
@@ -59,14 +58,13 @@ public class NewsServiceImpl implements NewsService {
      * @param code
      */
     public void cancelFavorite(FavoriteNewsDTO favoriteNewsDTO, int[] code) {
-        int userId=favoriteNewsDTO.getUserId();
+        Long userId=favoriteNewsDTO.getUserId();
         Long newsId= favoriteNewsDTO.getNewsId();
-        Long userIdLong=(long)userId;
-        if(newsMapper.getAFavorite(userIdLong,newsId)==null){
+        if(newsMapper.getAFavorite(userId,newsId)==null){
             code[0]=1;
             return;
         }
-        newsMapper.deleteFavorite(userIdLong,newsId);
+        newsMapper.deleteFavorite(userId,newsId);
     }
 
     /**

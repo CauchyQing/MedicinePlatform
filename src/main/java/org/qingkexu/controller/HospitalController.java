@@ -5,7 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.constant.MessageConstant;
 import org.qingkexu.pojo.dto.CommentDTO;
-import org.qingkexu.pojo.dto.FavoriteHospitalDTO;
+import org.qingkexu.pojo.dto.HospitalDTO;
+import org.qingkexu.pojo.dto.OrgDTO;
 import org.qingkexu.pojo.entity.Comment;
 import org.qingkexu.pojo.entity.Hospital;
 import org.qingkexu.pojo.vo.CommentVO;
@@ -67,21 +68,21 @@ public class HospitalController {
     }
 
     @PostMapping("/star")
-    public Result favorite(@RequestBody FavoriteHospitalDTO favoriteHospitalDTO){
+    public Result favorite(@RequestBody HospitalDTO hospitalDTO){
         int[] code=new int[1];
-        System.out.println(favoriteHospitalDTO);
-        hospitalService.favorite(favoriteHospitalDTO, code);
+        System.out.println(hospitalDTO);
+        hospitalService.favorite(hospitalDTO, code);
         if(code[0]==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
-        log.info("新增收藏：{}", favoriteHospitalDTO);
+        log.info("新增收藏：{}", hospitalDTO);
         return Result.success();
     }
 
     @DeleteMapping("/unstar")
-    public Result unFavorite(@RequestBody FavoriteHospitalDTO favoriteHospitalDTO){
+    public Result unFavorite(@RequestBody HospitalDTO hospitalDTO){
         int[] code=new int[1];
-        hospitalService.cancelFavorite(favoriteHospitalDTO, code);
+        hospitalService.cancelFavorite(hospitalDTO, code);
         if(code[0]==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
@@ -113,5 +114,16 @@ public class HospitalController {
             commentVOS.add(commentVO);
         }
         return Result.success(commentVOS);
+    }
+
+    @PostMapping("/consult")
+    public Result consult(@RequestBody OrgDTO orgDTO){
+        int[] code = new int[1];
+        log.info(orgDTO.toString());
+        userService.consultHospital(orgDTO, code);
+        if(code[0]==1){
+            return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
+        }
+        return Result.success();
     }
 }

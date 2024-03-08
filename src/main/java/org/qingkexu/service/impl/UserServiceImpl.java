@@ -1,10 +1,15 @@
 package org.qingkexu.service.impl;
 
+import org.qingkexu.mapper.HospitalMapper;
+import org.qingkexu.mapper.ResthomeMapper;
 import org.qingkexu.mapper.UserMapper;
 import org.qingkexu.pojo.dto.HealthInfoDTO;
+import org.qingkexu.pojo.dto.OrgDTO;
 import org.qingkexu.pojo.dto.UserDTO;
 import org.qingkexu.pojo.dto.UserLoginDTO;
+import org.qingkexu.pojo.entity.Consult;
 import org.qingkexu.pojo.entity.HealthInfo;
+import org.qingkexu.pojo.entity.Recommend;
 import org.qingkexu.pojo.entity.User;
 import org.qingkexu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +17,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private HospitalMapper hospitalMapper;
+
+    @Autowired
+    private ResthomeMapper resthomeMapper;
 
     /**
      *  用户登录
@@ -160,5 +172,43 @@ public class UserServiceImpl implements UserService {
      */
     public void insertHealthInfo(Long userId) {
         userMapper.insertHealthInfo(userId);
+    }
+
+    @Override
+    public User getByUserId(Long userId) {
+        return userMapper.getByUserId(userId);
+    }
+
+    @Override
+    public void consultHospital(OrgDTO orgDTO, int[] code) {
+        if(userMapper.getByUserId(orgDTO.getUserId())==null||hospitalMapper.getById(orgDTO.getOrgId())==null){
+            code[0]=1;
+            return;
+        }
+        String telephone=userMapper.getByUserId(orgDTO.getUserId()).getPhone();
+        Consult consult=new Consult();
+        consult.setOrgId(orgDTO.getOrgId());
+        consult.setUserId(orgDTO.getUserId());
+        consult.setUserTelephone(telephone);
+        userMapper.insertHospitalConsult(consult);
+    }
+
+    @Override
+    public void consultResthome(OrgDTO orgDTO,int[] code) {
+        if(userMapper.getByUserId(orgDTO.getUserId())==null||resthomeMapper.getById(orgDTO.getOrgId())==null){
+            code[0]=1;
+            return;
+        }
+        String telephone=userMapper.getByUserId(orgDTO.getUserId()).getPhone();
+        Consult consult=new Consult();
+        consult.setOrgId(orgDTO.getOrgId());
+        consult.setUserId(orgDTO.getUserId());
+        consult.setUserTelephone(telephone);
+        userMapper.insertResthomeConsult(consult);
+    }
+
+    @Override
+    public List<Recommend> getRecommend(Long userId, int[] code) {
+        return null;
     }
 }

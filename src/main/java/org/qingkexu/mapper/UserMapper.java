@@ -5,7 +5,11 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.qingkexu.pojo.entity.HealthInfo;
+import org.qingkexu.pojo.entity.Consult;
+import org.qingkexu.pojo.entity.Recommend;
 import org.qingkexu.pojo.entity.User;
+
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -27,12 +31,6 @@ public interface UserMapper {
     @Update("update client_user set username=#{username}, true_name=#{trueName}, phone=#{phone}, sex=#{sex}, password=#{password}, id=#{id}, update_time=#{updateTime} where user_id=#{userId}")
     void update(User user);
 
-/*    @Insert("INSERT INTO health_info " +
-            "(user_id, height, weight, blood_fat, blood_sugar, heartbeat, temperature, blood_high_pressure, blood_low_pressure, medical_history, special) " +
-            "VALUES " +
-            "(#{userId}, #{height}, #{weight}, #{bloodFat}, #{bloodSugar}, #{heartbeat}, #{temperature}, #{bloodHighPressure}, #{bloodLowPressure}, #{medicalHistory}, #{special})")
-    void insert(HealthInfo healthInfo);*/
-
     @Insert("INSERT INTO health_info " +
             "(user_id) " +
             "VALUES " +
@@ -44,4 +42,19 @@ public interface UserMapper {
 
     @Select("select * from health_info where user_id=#{userId}")
     HealthInfo getHealthInfoByUserId(Long userId);
+
+    @Insert("insert into consult_hospital" +
+            "(org_id, user_id, user_telephone) " +
+            "values" +
+            "(#{orgId},#{userId},#{userTelephone})")
+    void insertHospitalConsult(Consult consult);
+
+    @Insert("insert into consult_resthome" +
+            "(org_id, user_id, user_telephone) " +
+            "values" +
+            "(#{orgId},#{userId},#{userTelephone})")
+    void insertResthomeConsult(Consult consult);
+
+    @Select("select * from recommend where symptom in #{symptoms}")
+    Recommend getRecommendBySymptom(List<String> symptoms);
 }

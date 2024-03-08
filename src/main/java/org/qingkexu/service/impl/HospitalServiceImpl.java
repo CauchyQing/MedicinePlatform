@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.mapper.HospitalMapper;
 import org.qingkexu.mapper.UserMapper;
 import org.qingkexu.pojo.dto.CommentDTO;
-import org.qingkexu.pojo.dto.FavoriteHospitalDTO;
+import org.qingkexu.pojo.dto.HospitalDTO;
 import org.qingkexu.pojo.entity.Comment;
 import org.qingkexu.pojo.entity.FavoriteHospital;
 import org.qingkexu.pojo.entity.Hospital;
@@ -27,37 +27,35 @@ public class HospitalServiceImpl implements HospitalService {
 
     /**
      * 用户收藏一家医院
-     * @param favoriteHospitalDTO
+     * @param hospitalDTO
      * @param code
      */
-    public void favorite(FavoriteHospitalDTO favoriteHospitalDTO, int[] code) {
-        int userId=favoriteHospitalDTO.getUserId();
-        Long orgId=favoriteHospitalDTO.getOrgId();
-        Long userIdLong=(long) userId;
-        if(userMapper.getByUserId(userIdLong)==null || hospitalMapper.getById(orgId)==null){
+    public void favorite(HospitalDTO hospitalDTO, int[] code) {
+        Long userId= hospitalDTO.getUserId();
+        Long orgId= hospitalDTO.getOrgId();
+        if(userMapper.getByUserId(userId)==null || hospitalMapper.getById(orgId)==null){
             code[0]=1;
             return;
         }
         FavoriteHospital favoriteHospital = new FavoriteHospital();
-        favoriteHospital.setUserId(userIdLong);
+        favoriteHospital.setUserId(userId);
         favoriteHospital.setOrgId(orgId);
         hospitalMapper.insert(favoriteHospital);
     }
 
     /**
      * 用户取消收藏
-     * @param favoriteHospitalDTO
+     * @param hospitalDTO
      * @param code
      */
-    public void cancelFavorite(FavoriteHospitalDTO favoriteHospitalDTO, int[] code) {
-        int userId=favoriteHospitalDTO.getUserId();
-        Long orgId=favoriteHospitalDTO.getOrgId();
-        Long userIdLong=(long)userId;
-        if(hospitalMapper.getAFavorite(userIdLong,orgId)==null){
+    public void cancelFavorite(HospitalDTO hospitalDTO, int[] code) {
+        Long userId= hospitalDTO.getUserId();
+        Long orgId= hospitalDTO.getOrgId();
+        if(hospitalMapper.getAFavorite(userId,orgId)==null){
             code[0]=1;
             return;
         }
-        hospitalMapper.deleteFavorite(userIdLong,orgId);
+        hospitalMapper.deleteFavorite(userId,orgId);
     }
 
     /**
@@ -76,17 +74,16 @@ public class HospitalServiceImpl implements HospitalService {
      * @param code
      */
     public void comment(CommentDTO commentDTO, int[] code) {
-        int userId= commentDTO.getUserId();
+        Long userId= commentDTO.getUserId();
         Long orgId= commentDTO.getOrgId();
-        Long userIdLong=(long)userId;
-        if(userMapper.getByUserId(userIdLong)==null || hospitalMapper.getById(orgId)==null){
+        if(userMapper.getByUserId(userId)==null || hospitalMapper.getById(orgId)==null){
             code[0]=1;
             return;
         }
         Comment comment =new Comment();
         comment.setComment(commentDTO.getComment());
         comment.setOrgId(orgId);
-        comment.setUserId(userIdLong);
+        comment.setUserId(userId);
         comment.setPostTime(LocalDateTime.now());
         hospitalMapper.comment(comment);
     }

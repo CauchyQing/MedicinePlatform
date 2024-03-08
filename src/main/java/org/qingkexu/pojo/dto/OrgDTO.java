@@ -5,8 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class CommentDTO implements Serializable {
+public class OrgDTO implements Serializable{
     private Long userId;
     private Long orgId;
-    private String comment;
 }

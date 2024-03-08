@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.qingkexu.mapper.ResthomeMapper;
 import org.qingkexu.mapper.UserMapper;
 import org.qingkexu.pojo.dto.CommentDTO;
-import org.qingkexu.pojo.dto.FavoriteResthomeDTO;
+import org.qingkexu.pojo.dto.ResthomeDTO;
 import org.qingkexu.pojo.entity.Comment;
 import org.qingkexu.pojo.entity.FavoriteResthome;
 import org.qingkexu.pojo.entity.Resthome;
@@ -37,30 +37,28 @@ public class ResthomeServiceImpl implements ResthomeService {
     }
 
     @Override
-    public void favorite(FavoriteResthomeDTO favoriteResthomeDTO, int[] code) {
-        Integer userId=favoriteResthomeDTO.getUserId();
-        Long orgId=favoriteResthomeDTO.getOrgId();
-        Long userIdLong=(long)userId;
-        if(userMapper.getByUserId(userIdLong)==null||resthomeMapper.getById(orgId)==null){
+    public void favorite(ResthomeDTO resthomeDTO, int[] code) {
+        Long userId= resthomeDTO.getUserId();
+        Long orgId= resthomeDTO.getOrgId();
+        if(userMapper.getByUserId(userId)==null||resthomeMapper.getById(orgId)==null){
             code[0]=1;
             return;
         }
         FavoriteResthome favoriteResthome=new FavoriteResthome();
-        favoriteResthome.setUserId(userIdLong);
+        favoriteResthome.setUserId(userId);
         favoriteResthome.setOrgId(orgId);
         resthomeMapper.insert(favoriteResthome);
     }
 
     @Override
-    public void cancelFavorite(FavoriteResthomeDTO favoriteResthomeDTO, int[] code) {
-        int userId=favoriteResthomeDTO.getUserId();
-        Long orgId=favoriteResthomeDTO.getOrgId();
-        Long userIdLong=(long)userId;
-        if(resthomeMapper.getAFavorite(userIdLong,orgId)==null){
+    public void cancelFavorite(ResthomeDTO resthomeDTO, int[] code) {
+        Long userId= resthomeDTO.getUserId();
+        Long orgId= resthomeDTO.getOrgId();
+        if(resthomeMapper.getAFavorite(userId,orgId)==null){
             code[0]=1;
             return;
         }
-        resthomeMapper.deleteFavorite(userIdLong,orgId);
+        resthomeMapper.deleteFavorite(userId,orgId);
     }
 
     @Override
@@ -75,17 +73,16 @@ public class ResthomeServiceImpl implements ResthomeService {
 
     @Override
     public void comment(CommentDTO commentDTO, int[] code) {
-        int userId= commentDTO.getUserId();
+        Long userId= commentDTO.getUserId();
         Long orgId= commentDTO.getOrgId();
-        Long userIdLong=(long)userId;
-        if(userMapper.getByUserId(userIdLong)==null || resthomeMapper.getById(orgId)==null){
+        if(userMapper.getByUserId(userId)==null || resthomeMapper.getById(orgId)==null){
             code[0]=1;
             return;
         }
         Comment comment =new Comment();
         comment.setComment(commentDTO.getComment());
         comment.setOrgId(orgId);
-        comment.setUserId(userIdLong);
+        comment.setUserId(userId);
         comment.setPostTime(LocalDateTime.now());
         resthomeMapper.comment(comment);
     }
