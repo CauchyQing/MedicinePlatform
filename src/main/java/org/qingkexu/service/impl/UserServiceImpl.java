@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -209,6 +210,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Recommend> getRecommend(Long userId, int[] code) {
-        return null;
+        HealthInfo healthInfo=userMapper.getHealthInfoByUserId(userId);
+        List<String> symptom=new ArrayList<>();
+        float height=healthInfo.getHeight();
+        float weight=healthInfo.getWeight();
+        int bloodHighPressure=healthInfo.getBloodHighPressure();
+        int bloodLowPressure=healthInfo.getBloodLowPressure();
+        float bloodFat=healthInfo.getBloodFat();
+        float bloodSugar=healthInfo.getBloodSugar();
+        float temperature=healthInfo.getTemperature();
+        float heartbeat=healthInfo.getHeartbeat();
+        if(bloodFat>5.18){
+            symptom.add("血脂");
+        }
+        if(bloodSugar>6.1 || bloodSugar<3.9)
+            symptom.add("血糖");
+        if((bloodHighPressure<90||bloodLowPressure<60) || (bloodHighPressure>140&&bloodLowPressure>90))
+            symptom.add("高血压");
+        if(heartbeat<60||heartbeat>100)
+            symptom.add("心率");
+        float bmi=weight/(height*height/10000);
+        if(bmi>24.9 || bmi<18.5)
+            symptom.add("体重");
+        if(temperature>37.0)
+            symptom.add("发烧");
+        symptom.add("健康");
+        return userMapper.getRecommendBySymptom(symptom);
     }
 }

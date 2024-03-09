@@ -1,9 +1,6 @@
 package org.qingkexu.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.qingkexu.pojo.entity.HealthInfo;
 import org.qingkexu.pojo.entity.Consult;
 import org.qingkexu.pojo.entity.Recommend;
@@ -55,6 +52,12 @@ public interface UserMapper {
             "(#{orgId},#{userId},#{userTelephone})")
     void insertResthomeConsult(Consult consult);
 
-    @Select("select * from recommend where symptom in #{symptoms}")
-    Recommend getRecommendBySymptom(List<String> symptoms);
+    @Select("<script>" +
+            "SELECT * FROM recommend WHERE symptom IN " +
+            "<foreach item='item' index='index' collection='symptoms' open='(' separator=',' close=')'>" +
+            "#{item}" +
+            "</foreach>" +
+            "order by rand()"+
+            "</script>")
+    List<Recommend> getRecommendBySymptom(@Param("symptoms") List<String> symptoms);
 }

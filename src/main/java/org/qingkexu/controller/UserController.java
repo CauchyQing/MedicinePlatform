@@ -8,13 +8,19 @@ import org.qingkexu.pojo.dto.HealthInfoDTO;
 import org.qingkexu.pojo.dto.UserDTO;
 import org.qingkexu.pojo.dto.UserLoginDTO;
 import org.qingkexu.pojo.entity.HealthInfo;
+import org.qingkexu.pojo.entity.Recommend;
 import org.qingkexu.pojo.entity.User;
 import org.qingkexu.pojo.vo.HealthInfoVO;
+import org.qingkexu.pojo.vo.RecommendVO;
 import org.qingkexu.pojo.vo.UserLoginVO;
 import org.qingkexu.result.Result;
 import org.qingkexu.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -119,5 +125,23 @@ public class UserController {
             return Result.error(MessageConstant.EDIT_FAILED);
         }
         return Result.success();
+    }
+
+    @GetMapping("/recommend/{userId}")
+    public Result getRecommend(@PathVariable Long userId){
+        int[] code=new int[1];
+        List<RecommendVO> recommendVOS=new ArrayList<RecommendVO>();
+        List<Recommend> recommends = userService.getRecommend(userId,code);
+        if(code[0]==1){
+            return Result.error(MessageConstant.RECOMMEND_ERROR);
+        }
+        for(Recommend recommend:recommends){
+            RecommendVO recommendVO=RecommendVO.builder().symptom(recommend.getSymptom())
+                    .abstract1(recommend.getAbstract1()).articleId(recommend.getArticleId())
+                    .content(recommend.getContent()).layout(recommend.getLayout()).link(recommend.getLink())
+                    .publicationTime(recommend.getPublicationTime()).title(recommend.getTitle()).build();
+            recommendVOS.add(recommendVO);
+        }
+        return Result.success(recommendVOS);
     }
 }
