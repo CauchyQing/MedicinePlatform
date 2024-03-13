@@ -37,28 +37,28 @@ public class ResthomeServiceImpl implements ResthomeService {
     }
 
     @Override
-    public void favorite(ResthomeDTO resthomeDTO, int[] code) {
+    public int favorite(ResthomeDTO resthomeDTO) {
         Long userId= resthomeDTO.getUserId();
         Long orgId= resthomeDTO.getOrgId();
         if(userMapper.getByUserId(userId)==null||resthomeMapper.getById(orgId)==null){
-            code[0]=1;
-            return;
+            return 1;
         }
         FavoriteResthome favoriteResthome=new FavoriteResthome();
         favoriteResthome.setUserId(userId);
         favoriteResthome.setOrgId(orgId);
         resthomeMapper.insert(favoriteResthome);
+        return 0;
     }
 
     @Override
-    public void cancelFavorite(ResthomeDTO resthomeDTO, int[] code) {
+    public int cancelFavorite(ResthomeDTO resthomeDTO) {
         Long userId= resthomeDTO.getUserId();
         Long orgId= resthomeDTO.getOrgId();
         if(resthomeMapper.getAFavorite(userId,orgId)==null){
-            code[0]=1;
-            return;
+            return 1;
         }
         resthomeMapper.deleteFavorite(userId,orgId);
+        return 0;
     }
 
     @Override
@@ -72,12 +72,11 @@ public class ResthomeServiceImpl implements ResthomeService {
     }
 
     @Override
-    public void comment(CommentDTO commentDTO, int[] code) {
+    public int comment(CommentDTO commentDTO) {
         Long userId= commentDTO.getUserId();
         Long orgId= commentDTO.getOrgId();
         if(userMapper.getByUserId(userId)==null || resthomeMapper.getById(orgId)==null){
-            code[0]=1;
-            return;
+            return 1;
         }
         Comment comment =new Comment();
         comment.setComment(commentDTO.getComment());
@@ -85,6 +84,7 @@ public class ResthomeServiceImpl implements ResthomeService {
         comment.setUserId(userId);
         comment.setPostTime(LocalDateTime.now());
         resthomeMapper.comment(comment);
+        return 0;
     }
     
     @Override

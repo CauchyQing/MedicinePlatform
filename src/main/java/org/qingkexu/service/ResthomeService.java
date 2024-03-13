@@ -10,15 +10,15 @@ import java.util.List;
 public interface ResthomeService {
     List<Resthome> getResthomes(int currentPage, int pageSize);
 
-    void favorite(ResthomeDTO resthomeDTO, int[] code);
+    int favorite(ResthomeDTO resthomeDTO);
 
-    void cancelFavorite(ResthomeDTO resthomeDTO, int[] code);
+    int cancelFavorite(ResthomeDTO resthomeDTO);
 
     List<Long> getFavorite(Long userId);
 
     Resthome getAResthomeById(Long orgId);
 
-    void comment(CommentDTO commentDTO, int[] code);
+    int comment(CommentDTO commentDTO);
 
     List<Comment> getComment(Long orgId);
 }

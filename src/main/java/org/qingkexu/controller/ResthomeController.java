@@ -64,9 +64,8 @@ public class ResthomeController {
 
     @PostMapping("/star")
     public Result favorite(@RequestBody ResthomeDTO resthomeDTO){
-        int[] code = new int[1];
-        resthomeService.favorite(resthomeDTO,code);
-        if(code[0]==1){
+        int code = resthomeService.favorite(resthomeDTO);
+        if(code==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         log.info("新增收藏：{}", resthomeDTO);
@@ -75,9 +74,8 @@ public class ResthomeController {
 
     @DeleteMapping("/unstar")
     public Result unFavorite(@RequestBody ResthomeDTO resthomeDTO){
-        int[] code = new int[1];
-        resthomeService.cancelFavorite(resthomeDTO,code);
-        if(code[0]==1){
+        int code=resthomeService.cancelFavorite(resthomeDTO);
+        if(code==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         return Result.success();
@@ -85,10 +83,9 @@ public class ResthomeController {
 
     @PostMapping("/comment")
     public Result comment(@RequestBody CommentDTO commentDTO){
-        int[] code = new int[1];
         log.info(commentDTO.toString());
-        resthomeService.comment(commentDTO,code);
-        if(code[0]==1){
+        int code = resthomeService.comment(commentDTO);
+        if(code==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         log.info("新增评论：{}", commentDTO);
@@ -112,10 +109,10 @@ public class ResthomeController {
 
     @PostMapping("/consult")
     public Result consult(@RequestBody OrgDTO orgDTO) {
-        int[] code = new int[1];
+
         log.info(orgDTO.toString());
-        userService.consultResthome(orgDTO, code);
-        if (code[0] == 1) {
+        int code = userService.consultResthome(orgDTO);
+        if (code == 1) {
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         return Result.success();

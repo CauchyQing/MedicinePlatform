@@ -44,9 +44,8 @@ public class NewsController {
 
     @PostMapping("/star")
     public Result favorite(@RequestBody FavoriteNewsDTO favoriteNewsDTO){
-        int[] code = new int[1];
-        newsService.favorite(favoriteNewsDTO,code);
-        if(code[0]==1){
+        int code = newsService.favorite(favoriteNewsDTO);
+        if(code==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         log.info("新增收藏：{}", favoriteNewsDTO);
@@ -55,9 +54,8 @@ public class NewsController {
 
     @DeleteMapping("/unstar")
     public Result unFavorite(@RequestBody FavoriteNewsDTO favoriteNewsDTO){
-        int[] code=new int[1];
-        newsService.cancelFavorite(favoriteNewsDTO,code);
-        if(code[0]==1){
+        int code=newsService.cancelFavorite(favoriteNewsDTO);
+        if(code==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         return Result.success();

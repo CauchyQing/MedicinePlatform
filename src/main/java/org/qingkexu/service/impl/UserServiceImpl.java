@@ -135,13 +135,11 @@ public class UserServiceImpl implements UserService {
     /**
      * 更新用户健康信息
      * @param healthInfoDTO
-     * @param code
      */
-    public void updateHealthInfo(HealthInfoDTO healthInfoDTO, int[] code) {
+    public int updateHealthInfo(HealthInfoDTO healthInfoDTO) {
         HealthInfo healthInfo=userMapper.getHealthInfoByUserId(healthInfoDTO.getUserId());
         if(healthInfo==null){
-            code[0]=1;
-            return;
+            return 1;
         }
         if(healthInfoDTO.getBloodFat()!=null)
             healthInfo.setBloodFat(healthInfoDTO.getBloodFat());
@@ -165,6 +163,7 @@ public class UserServiceImpl implements UserService {
             healthInfo.setTemperature(healthInfoDTO.getTemperature());
 
         userMapper.updateHealthInfo(healthInfo);
+        return 0;
     }
 
     /**
@@ -181,10 +180,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void consultHospital(OrgDTO orgDTO, int[] code) {
+    public int consultHospital(OrgDTO orgDTO) {
         if(userMapper.getByUserId(orgDTO.getUserId())==null||hospitalMapper.getById(orgDTO.getOrgId())==null){
-            code[0]=1;
-            return;
+            return 1;
         }
         String telephone=userMapper.getByUserId(orgDTO.getUserId()).getPhone();
         Consult consult=new Consult();
@@ -192,13 +190,13 @@ public class UserServiceImpl implements UserService {
         consult.setUserId(orgDTO.getUserId());
         consult.setUserTelephone(telephone);
         userMapper.insertHospitalConsult(consult);
+        return 0;
     }
 
     @Override
-    public void consultResthome(OrgDTO orgDTO,int[] code) {
+    public int consultResthome(OrgDTO orgDTO) {
         if(userMapper.getByUserId(orgDTO.getUserId())==null||resthomeMapper.getById(orgDTO.getOrgId())==null){
-            code[0]=1;
-            return;
+            return 1;
         }
         String telephone=userMapper.getByUserId(orgDTO.getUserId()).getPhone();
         Consult consult=new Consult();
@@ -206,6 +204,7 @@ public class UserServiceImpl implements UserService {
         consult.setUserId(orgDTO.getUserId());
         consult.setUserTelephone(telephone);
         userMapper.insertResthomeConsult(consult);
+        return 0;
     }
 
     @Override

@@ -28,34 +28,32 @@ public class HospitalServiceImpl implements HospitalService {
     /**
      * 用户收藏一家医院
      * @param hospitalDTO
-     * @param code
      */
-    public void favorite(HospitalDTO hospitalDTO, int[] code) {
+    public int favorite(HospitalDTO hospitalDTO) {
         Long userId= hospitalDTO.getUserId();
         Long orgId= hospitalDTO.getOrgId();
         if(userMapper.getByUserId(userId)==null || hospitalMapper.getById(orgId)==null){
-            code[0]=1;
-            return;
+            return 1;
         }
         FavoriteHospital favoriteHospital = new FavoriteHospital();
         favoriteHospital.setUserId(userId);
         favoriteHospital.setOrgId(orgId);
         hospitalMapper.insert(favoriteHospital);
+        return 0;
     }
 
     /**
      * 用户取消收藏
      * @param hospitalDTO
-     * @param code
      */
-    public void cancelFavorite(HospitalDTO hospitalDTO, int[] code) {
+    public int cancelFavorite(HospitalDTO hospitalDTO) {
         Long userId= hospitalDTO.getUserId();
         Long orgId= hospitalDTO.getOrgId();
         if(hospitalMapper.getAFavorite(userId,orgId)==null){
-            code[0]=1;
-            return;
+            return 1;
         }
         hospitalMapper.deleteFavorite(userId,orgId);
+        return 0;
     }
 
     /**
@@ -71,14 +69,12 @@ public class HospitalServiceImpl implements HospitalService {
     /**
      * 用户评论
      * @param commentDTO
-     * @param code
      */
-    public void comment(CommentDTO commentDTO, int[] code) {
+    public int comment(CommentDTO commentDTO) {
         Long userId= commentDTO.getUserId();
         Long orgId= commentDTO.getOrgId();
         if(userMapper.getByUserId(userId)==null || hospitalMapper.getById(orgId)==null){
-            code[0]=1;
-            return;
+            return 1;
         }
         Comment comment =new Comment();
         comment.setComment(commentDTO.getComment());
@@ -86,6 +82,7 @@ public class HospitalServiceImpl implements HospitalService {
         comment.setUserId(userId);
         comment.setPostTime(LocalDateTime.now());
         hospitalMapper.comment(comment);
+        return 0;
     }
 
     /**

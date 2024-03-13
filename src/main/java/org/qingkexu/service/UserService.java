@@ -38,15 +38,15 @@ public interface UserService {
 
     HealthInfo getHealthInfoByUserId(Long userId);
 
-    void updateHealthInfo(HealthInfoDTO healthInfoDTO, int[] code);
+    int updateHealthInfo(HealthInfoDTO healthInfoDTO);
 
     void insertHealthInfo(Long userId);
 
     User getByUserId(Long userId);
 
-    void consultHospital(OrgDTO orgDTO, int[] code);
+    int consultHospital(OrgDTO orgDTO);
 
-    void consultResthome(OrgDTO orgDTO, int[] code);
+    int consultResthome(OrgDTO orgDTO);
 
     List<Recommend> getRecommend(Long userId, int[] code);
 }

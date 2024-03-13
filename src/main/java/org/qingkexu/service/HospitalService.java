@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface HospitalService {
 
-    void favorite(HospitalDTO hospitalDTO, int[] code);
+    int favorite(HospitalDTO hospitalDTO);
 
-    void cancelFavorite(HospitalDTO hospitalDTO, int[] code);
+    int cancelFavorite(HospitalDTO hospitalDTO);
 
     List<Long> getFavorite(Long userId);
 
@@ -19,7 +19,7 @@ public interface HospitalService {
 
     List<Hospital> getHospitals(int page, int pageSize);
 
-    void comment(CommentDTO commentDTO, int[] code);
+    int comment(CommentDTO commentDTO);
 
     List<Comment> getComment(Long orgId);
 }

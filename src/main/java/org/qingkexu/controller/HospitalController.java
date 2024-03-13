@@ -69,10 +69,9 @@ public class HospitalController {
 
     @PostMapping("/star")
     public Result favorite(@RequestBody HospitalDTO hospitalDTO){
-        int[] code=new int[1];
         System.out.println(hospitalDTO);
-        hospitalService.favorite(hospitalDTO, code);
-        if(code[0]==1){
+        int code=hospitalService.favorite(hospitalDTO);
+        if(code==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         log.info("新增收藏：{}", hospitalDTO);
@@ -81,9 +80,8 @@ public class HospitalController {
 
     @DeleteMapping("/unstar")
     public Result unFavorite(@RequestBody HospitalDTO hospitalDTO){
-        int[] code=new int[1];
-        hospitalService.cancelFavorite(hospitalDTO, code);
-        if(code[0]==1){
+        int code=hospitalService.cancelFavorite(hospitalDTO);
+        if(code==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         return Result.success();
@@ -91,10 +89,9 @@ public class HospitalController {
 
     @PostMapping("/comment")
     public Result comment(@RequestBody CommentDTO commentDTO){
-        int[] code = new int[1];
         log.info(commentDTO.toString());
-        hospitalService.comment(commentDTO,code);
-        if(code[0]==1){
+        int code = hospitalService.comment(commentDTO);
+        if(code==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         log.info("新增评论：{}", commentDTO);
@@ -118,10 +115,10 @@ public class HospitalController {
 
     @PostMapping("/consult")
     public Result consult(@RequestBody OrgDTO orgDTO){
-        int[] code = new int[1];
+
         log.info(orgDTO.toString());
-        userService.consultHospital(orgDTO, code);
-        if(code[0]==1){
+        int code =userService.consultHospital(orgDTO);
+        if(code==1){
             return Result.error(MessageConstant.MESSAGE_NOT_FOUND);
         }
         return Result.success();

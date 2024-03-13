@@ -37,34 +37,32 @@ public class NewsServiceImpl implements NewsService {
     /**
      * 收藏一条新闻
      * @param favoriteNewsDTO
-     * @param code
      */
-    public void favorite(FavoriteNewsDTO favoriteNewsDTO, int[] code) {
+    public int favorite(FavoriteNewsDTO favoriteNewsDTO) {
         Long userId=favoriteNewsDTO.getUserId();
         Long newsId= favoriteNewsDTO.getNewsId();
         if(userMapper.getByUserId(userId)==null||newsMapper.getById(newsId)==null){
-            code[0]=1;
-            return;
+            return 1;
         }
         FavoriteNews favoriteNews=new FavoriteNews();
         favoriteNews.setNewsId(newsId);
         favoriteNews.setUserId(userId);
         newsMapper.insert(favoriteNews);
+        return 0;
     }
 
     /**
      * 取消收藏
      * @param favoriteNewsDTO
-     * @param code
      */
-    public void cancelFavorite(FavoriteNewsDTO favoriteNewsDTO, int[] code) {
+    public int cancelFavorite(FavoriteNewsDTO favoriteNewsDTO) {
         Long userId=favoriteNewsDTO.getUserId();
         Long newsId= favoriteNewsDTO.getNewsId();
         if(newsMapper.getAFavorite(userId,newsId)==null){
-            code[0]=1;
-            return;
+            return 1;
         }
         newsMapper.deleteFavorite(userId,newsId);
+        return 0;
     }
 
     /**

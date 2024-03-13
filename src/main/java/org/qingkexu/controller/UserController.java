@@ -119,9 +119,9 @@ public class UserController {
     @PostMapping("/health/update")
     public Result updateHealthInfo(@RequestBody HealthInfoDTO healthInfoDTO){
         log.info(healthInfoDTO.toString());
-        int[] code=new int[1];
-        userService.updateHealthInfo(healthInfoDTO,code);
-        if(code[0]==1){
+
+        int code=userService.updateHealthInfo(healthInfoDTO);
+        if(code==1){
             return Result.error(MessageConstant.EDIT_FAILED);
         }
         return Result.success();

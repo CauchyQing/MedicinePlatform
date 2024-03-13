@@ -8,9 +8,9 @@ import java.util.List;
 public interface NewsService {
     List<News> getNews(int page, int pageSize);
 
-    void favorite(FavoriteNewsDTO favoriteNewsDTO,int[] code);
+    int favorite(FavoriteNewsDTO favoriteNewsDTO);
 
-    void cancelFavorite(FavoriteNewsDTO favoriteNewsDTO,int[] code);
+    int cancelFavorite(FavoriteNewsDTO favoriteNewsDTO);
 
     List<Long> getFavorite(Long userId);
 
