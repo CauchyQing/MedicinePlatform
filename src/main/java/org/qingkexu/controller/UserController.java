@@ -12,6 +12,7 @@ import org.qingkexu.pojo.entity.Recommend;
 import org.qingkexu.pojo.entity.User;
 import org.qingkexu.pojo.vo.HealthInfoVO;
 import org.qingkexu.pojo.vo.RecommendVO;
+import org.qingkexu.pojo.vo.UserInfoVO;
 import org.qingkexu.pojo.vo.UserLoginVO;
 import org.qingkexu.result.Result;
 import org.qingkexu.service.UserService;
@@ -143,5 +144,22 @@ public class UserController {
             recommendVOS.add(recommendVO);
         }
         return Result.success(recommendVOS);
+    }
+
+    @GetMapping("/getuserinfo/{userId}")
+    public Result getUserInfo(@PathVariable Long userId){
+        User user = userService.getByUserId(userId);
+
+        if(user==null){
+            log.info("无该用户");
+        }
+        UserInfoVO userInfoVO = UserInfoVO.builder()
+                .userId(user.getUserId())
+                .username(user.getUsername())
+                .trueName(user.getTrueName())
+                .sex(user.getSex())
+                .phone(user.getPhone())
+                .build();
+        return Result.success(userInfoVO);
     }
 }
